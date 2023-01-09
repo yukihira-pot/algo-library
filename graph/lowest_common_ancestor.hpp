@@ -1,5 +1,3 @@
-#include "decl.hpp"
-
 struct LowestCommonAncestor {
     // parent[k][v] := v の 2^k 個先の親
     vector<vector<int>> parent;

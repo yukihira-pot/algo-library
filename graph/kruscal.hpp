@@ -1,5 +1,3 @@
-#include "decl.hpp"
-
 struct UnionFind {
     // par[i] := parent of i
     vector<int> par, rank, siz;
