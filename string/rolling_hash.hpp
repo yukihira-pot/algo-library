@@ -1,61 +1,100 @@
 struct RollingHash {
-    string S;
-    int N;       // S の長さ
-    long long b; // 基数
-    static constexpr long long m1 = 998244353;  // 法1
-    static constexpr long long m2 = 1000000007; // 法2
-    vector<long long> prefix1, prefix2; // prefix1[i] := S[:i] のハッシュ
-    vector<long long> power1, power2;  // power1[i] := pow(b, i)
-    random_device rand;
-
-    RollingHash(string &S_) : S(S_) {
-        b = rand() % min(m1, m2);
-        N = (int)S.size();
-        prefix1.assign(N + 1, 0);
-        prefix2.assign(N + 1, 0);
-        power1.assign(N + 1, 1);
-        power2.assign(N + 1, 1);
-        // prefix と power の前処理
-        for (int i = 0; i < N; i++) {
-            prefix1[i + 1] = (prefix1[i] * b + (long long)S[i]) % m1;
-            prefix2[i + 1] = (prefix2[i] * b + (long long)S[i]) % m2;
-            power1[i + 1] = (power1[i] * b) % m1;
-            power2[i + 1] = (power2[i] * b) % m2;
+    // Ref : https://github.com/Capobmb/CPcpp_library/blob/main/RollingHash.cpp
+    int n;
+ 
+    using ull = unsigned long long;
+    static constexpr ull MOD = (1UL << 61) - 1;
+    // static constexpr int base = 9973;
+    static inline const ull base = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch()).count();;
+    std::vector<ull> hash, power;
+ 
+    // a*b mod 2^61-1 (最後にModを取らない) / note: result < 4*MOD
+    static ull mul(ull a, ull b) {
+        static constexpr ull MASK30 = (1UL << 30) - 1;
+        static constexpr ull MASK31 = (1UL << 31) - 1;
+        ull au = a >> 31;
+        ull ad = a & MASK31;
+        ull bu = b >> 31;
+        ull bd = b & MASK31;
+        ull mid = ad * bu + au * bd;
+        ull midu = mid >> 30;
+        ull midd = mid & MASK30;
+        return au * bu * 2 + midu + (midd << 31) + ad * bd;
+    }
+ 
+    // X mod 2^61-1
+    static ull take_mod(ull x) {
+        static constexpr ull MASK61 = MOD;
+        ull xu = x >> 61;
+        ull xd = x & MASK61;
+        ull res = xu + xd;
+        if (res >= MOD) res -= MOD;
+        return res;
+    }
+ 
+    RollingHash(const std::string &s) : n(s.size()), hash(n+1), power(n+1) {
+        hash[0] = 0;
+        power[0] = 1;
+        for(int j = 0; j < n; j++) {
+            power[j+1] = take_mod(mul(power[j], base));
+            hash[j+1] = take_mod(mul(hash[j], base) + s[j]);
         }
     }
-
-    // S[l, r) のハッシュ値を求める. O(1)
-    long long get1(int l, int r) {
-        return ((prefix1[r] - power1[r - l] * prefix1[l]) % m1 + m1) % m1;
+ 
+    // get hash of S[l:r) in O(1)
+    ull gethash(int l, int r) const {
+        static constexpr ull POSITIVIZER = MOD << 2;
+        return take_mod(hash[r] + POSITIVIZER - mul(hash[l], power[r-l]));
     }
-    long long get2(int l, int r) {
-        return ((prefix2[r] - power2[r - l] * prefix2[l]) % m2 + m2) % m2;
+ 
+    // return S[l1:r1) == S[l2:r2) in O(1)
+    bool is_same(int l1, int r1, int l2, int r2) const {
+        return gethash(l1, r1) == gethash(l2, r2);
     }
-
-    // S1 + S2 のハッシュ値を求める. O(1)
-    // h1 : S1 のハッシュ値, h2 : S2 のハッシュ値
-    // l2 : S2 の長さ
-    long long concat1(long long h1, long long h2, int l2) {
-        return (power1[l2] * h1 % m1 + h2) % m1;
-    }
-    long long concat2(long long h1, long long h2, int l2) {
-        return (power2[l2] * h1 % m2 + h2) % m2;
-    }
-
-    // S[l1, r1) と S[l2, r2) のハッシュ値が等しいか調べる. O(1)
-    bool is_same(int l1, int r1, int l2, int r2) {
-        return (get1(l1, r1) == get1(l2, r2)) && (get2(l1, r1) == get2(l2, r2));
-    }
-
-    // S[l1, r1) と S[l2, r2) の最大共通接頭辞を求める. O(log N)
-    int get_lcp(int l1, int r1, int l2, int r2) {
-        int ok = 0;
-        int ng = min(r1 - l1, r2 - l2) + 1;
-        while (ng - ok > 1) {
-            int mid = (ng + ok) >> 1;
-            if (is_same(l1, l1 + mid, l2, l2 + mid)) ok = mid;
-            else ng = mid;
+ 
+    // get length of LCP of S[l1:r1) and S[l2:r2) in O(logN)
+    int get_lcp(int l1, int r1, int l2, int r2) const {
+        int len = std::min(r1 - l1, r2 - l2);
+        int ok = 0, ng = len + 1, mid{};
+        while(ng - ok > 1) {
+            mid = (ok + ng) >> 1;
+            (is_same(l1, l1 + mid, l2, l2 + mid) ? ok : ng) = mid;
         }
         return ok;
     }
+ 
+    // concatenate hash of S[l1:r1) and S[l2:r2) in this order
+    ull concat(int l1, int r1, int l2, int r2) const {
+        auto lh = gethash(l1, r1);
+        auto rh = gethash(l2, r2);
+        auto res = take_mod(mul(lh, power[r2-l2])) + rh;
+        if(res >= MOD) res -= MOD;
+        return res;
+    }
 };
+using RH = RollingHash;
+unsigned long long concat(RH& a, int l1, int r1, RH& b, int l2, int r2) {
+    auto ah = a.gethash(l1, r1);
+    auto bh = b.gethash(l2, r2);
+    auto res = RH::take_mod(RH::mul(ah, b.power[r2 - l2])) + bh;
+    if(res >= RH::MOD) res -= RH::MOD;
+    return res;
+}
+int get_lcp(RH& a, int l1, int r1, RH& b, int l2, int r2) {
+    int ok = 0, ng = std::min(r1 - l1, r2 - l2) + 1, mid{};
+    while(ng - ok > 1) {
+        mid = (ok + ng) >> 1;
+        (a.gethash(l1, l1 + mid) == b.gethash(l2, l2 + mid) ? ok : ng) = mid;
+    }
+    return ok;
+}
+// s[l1, r1) < t[l2, r2)
+bool is_less(string& s, string& t, RH& sh, int l1, int r1, RH& th, int l2, int r2) {
+    int lcp_len = get_lcp(sh, l1, r1, th, l2, r2);
+    if(lcp_len == r1 - l1 || lcp_len == r2 - l2) return r1 - l1 < r2 - l2;
+    return s[l1 + lcp_len] < t[l2 + lcp_len];
+}
+// s[l1, r1) > t[l2, r2)
+bool is_greater(string& s, string& t, RH& sh, int l1, int r1, RH& th, int l2, int r2) {
+    return !is_less(s, t, sh, l1, r1, th, l2, r2);
+}
