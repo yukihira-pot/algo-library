@@ -18,21 +18,20 @@
 
     "cpmain": {
         "prefix": "cpmain",
+        "scope": "cpp",
         "body": [
             "/*",
             "    date: $CURRENT_YEAR-$CURRENT_MONTH-$CURRENT_DATE $CURRENT_HOUR:$CURRENT_MINUTE",
             "*/",
             "",
+            "// # language C++",
+            "",
             "#ifndef INCLUDED_MAIN",
             "#define INCLUDED_MAIN",
             "#include __FILE__",
             "",
-            "#if __has_include(<atcoder/all>)",
-            "#include <atcoder/all>",
-            "#endif",
-            "",
             "using mint = ModInt<998244353>;",
-            "// using mint = Modint<1000000007>;",
+            "// using mint = ModInt<1000000007>;",
             "",
             "using vm = vector<mint>;",
             "using vvm = vector<vm>;",
@@ -66,6 +65,7 @@
             "#include <cassert>",
             "#include <chrono>",
             "#include <cmath>",
+            "#include <complex>",
             "#include <deque>",
             "#include <functional>",
             "#include <iomanip>",
@@ -280,6 +280,7 @@
 
     "cfmain": {
         "prefix": "cfmain",
+        "scope": "cpp",
         "body": [
             "#ifdef poyo",
             "",
@@ -449,6 +450,7 @@
 
     "LCA": {
         "prefix": "lowestcommonancestor",
+        "scope": "cpp",
         "body": [
             "struct LowestCommonAncestor {",
             "    // parent[k][v] := v の 2^k 個先の親",
@@ -541,6 +543,7 @@
 
     "treediameter": {
         "prefix": "treediameter",
+        "scope": "cpp",
         "body": [
             "template <typename T>",
             "struct Edge {",
@@ -572,6 +575,7 @@
 
     "stronglyconnectedcomponents": {
         "prefix": "stronglyconnectedcomponents",
+        "scope": "cpp",
         "body": [
             "template <typename T>",
             "struct Edge {",
@@ -647,6 +651,7 @@
 
     "LCS": {
         "prefix": "LCS",
+        "scope": "cpp",
         "body": [
             "int longest_common_sequence(string &S, string &T) {",
             "    int s_sz = S.size();",
@@ -667,6 +672,7 @@
     
     "modint": {
         "prefix": "modint",
+        "scope": "cpp",
         "body": [
             "template <int MOD>",
             "struct ModInt {",
@@ -756,50 +762,45 @@
 
 
 
-    "modPC": {
-        "prefix": "modPC",
+    "factorials": {
+        "prefix": "factorials",
+        "scope": "cpp",
         "body": [
-            "template<int MOD> struct ModInt {",
-            "    static const int Mod = MOD; unsigned x; ModInt() : x(0) { }",
-            "    ModInt(signed sig) { x = sig < 0 ? sig % MOD + MOD : sig % MOD; }",
-            "    ModInt(signed long long sig) { x = sig < 0 ? sig % MOD + MOD : sig % MOD; }",
-            "    int get() const { return (int)x; }",
-            "    ModInt &operator+=(ModInt that) { if ((x += that.x) >= MOD) x -= MOD; return *this; }",
-            "    ModInt &operator-=(ModInt that) { if ((x += MOD - that.x) >= MOD) x -= MOD; return *this; }",
-            "    ModInt &operator*=(ModInt that) { x = (unsigned long long)x * that.x % MOD; return *this; }",
-            "    ModInt &operator/=(ModInt that) { return *this *= that.inverse(); }",
-            "    ModInt operator+(ModInt that) const { return ModInt(*this) += that; }",
-            "    ModInt operator-(ModInt that) const { return ModInt(*this) -= that; }",
-            "    ModInt operator*(ModInt that) const { return ModInt(*this) *= that; }",
-            "    ModInt operator/(ModInt that) const { return ModInt(*this) /= that; }",
-            "    ModInt inverse() const { long long a = x, b = MOD, u = 1, v = 0;",
-            "        while (b) { long long t = a / b; a -= t * b; std::swap(a, b); u -= t * v; std::swap(u, v); }",
-            "        return ModInt(u); }",
-            "    bool operator==(ModInt that) const { return x == that.x; }",
-            "    bool operator!=(ModInt that) const { return x != that.x; }",
-            "    ModInt operator-() const { ModInt t; t.x = x == 0 ? 0 : Mod - x; return t; }",
-            "};",
-            "template<int MOD> ostream& operator<<(ostream& st, const ModInt<MOD> a) { st << a.get(); return st; };",
-            "template<int MOD> ModInt<MOD> operator^(ModInt<MOD> a, unsigned long long k) {",
-            "    ModInt<MOD> r = 1; while (k) { if (k & 1) r *= a; a *= a; k >>= 1; } return r; }",
-            "",
-            "",
-            "// typedef ModInt<(int)1e9+7> mint;",
-            "// (P - 1) * (P - 2) ^ (N - 1) mod 1e9+7の場合",
-            "// mint ans = mint(P - 1) * (mint(P - 2) ^ (N - 1))とする",
-            "",
-            "template<typename T, int FAC_MAX> struct Comb { vector<T> fac, ifac;",
-            "    Comb(){fac.resize(FAC_MAX,1);ifac.resize(FAC_MAX,1);rep(i,1,FAC_MAX)fac[i]=fac[i-1]*i;",
-            "        ifac[FAC_MAX-1]=T(1)/fac[FAC_MAX-1];rrep(i,FAC_MAX-2,1)ifac[i]=ifac[i+1]*T(i+1);}",
-            "    T aPb(int a, int b) { if (b < 0 || a < b) return T(0); return fac[a] * ifac[a - b]; }",
-            "    T aCb(int a, int b) { if (b < 0 || a < b) return T(0); return fac[a] * ifac[a - b] * ifac[b]; }",
-            "    T nHk(int n, int k) { if (n == 0 && k == 0) return T(1); if (n <= 0 || k < 0) return 0;",
-            "        return aCb(n + k - 1, k); } // nHk = (n+k-1)Ck : n is separator",
-            "    T pairCombination(int n) {if(n%2==1)return T(0);return fac[n]*ifac[n/2]/(T(2)^(n/2));}",
+            "template <typename T, int FAC_MAX>",
+            "struct Factorials {",
+            "    vector<T> fac, ifac;",
+            "    Factorials() {",
+            "        fac.resize(FAC_MAX, 1);",
+            "        ifac.resize(FAC_MAX, 1);",
+            "        for (int i = 1; i < FAC_MAX; i++) {",
+            "            fac[i] = fac[i - 1] * i;",
+            "        }",
+            "        ifac[FAC_MAX - 1] = T(1) / fac[FAC_MAX - 1];",
+            "        for (int i = FAC_MAX - 2; i >= 1; i--) {",
+            "            ifac[i] = ifac[i + 1] * T(i + 1);",
+            "        }",
+            "    }",
+            "    T nPr(int n, int r) {",
+            "        if (r < 0 || n < r) return T(0);",
+            "        return fac[n] * ifac[n - r];",
+            "    }",
+            "    T nCr(int n, int r) {",
+            "        if (r < 0 || n < r) return T(0);",
+            "        return fac[n] * ifac[n - r] * ifac[r];",
+            "    }",
+            "    T nHr(int n, int r) {",
+            "        if (n == 0 && r == 0) return T(1);",
+            "        if (n <= 0 || r < 0) return 0;",
+            "        return nCr(n + r - 1, r);",
+            "    }  // nHk = (n+k-1)Ck : n is separator",
+            "    T pairCombination(int n) {",
+            "        if (n % 2 == 1) return T(0);",
+            "        return fac[n] * ifac[n / 2] / (T(2) ^ (n / 2));",
+            "    }",
             "    // combination of paris for n",
-            "}; ",
+            "};",
             "",
-            "// Comb<mint, 40> comなどとして使用;",
+            "// Factorials<mint, 40> comなどとして使用;",
         ],
         "description": ""
     },
@@ -807,6 +808,7 @@
 
     "Eratosthenes": {
         "prefix": "Erathosthenes",
+        "scope": "cpp",
         "body": [
             "/*  PrimeFact",
             "    init(N): 初期化。O(N log log N)",
@@ -845,6 +847,7 @@
 
     "compress": {
         "prefix": "compress",
+        "scope": "cpp",
         "body": [
             "/* compress",
             "    X を座標圧縮して書き換える",
@@ -875,6 +878,7 @@
 
     "RunLength": {
         "prefix": "RunLength",
+        "scope": "cpp",
         "body": [
             "/* encode: ランレングス圧縮を行う",
             "*/",
@@ -907,6 +911,7 @@
 
     "FILL": {
         "prefix": "FILL",
+        "scope": "cpp",
         "body": [
             "// n次元配列の初期化。第２引数の型のサイズごとに初期化していく。",
             "template<typename A, size_t N, typename T>",
@@ -924,6 +929,7 @@
 
     "unionfind": {
         "prefix": "unionfind",
+        "scope": "cpp",
         "body": [
             "struct UnionFind {",
             "    vector<int> par, rank, siz;",
@@ -972,6 +978,7 @@
 
     "Dijkstra": {
         "prefix": "Dijkstra",
+        "scope": "cpp",
         "body": [
             "// vector<int> edgenum(MAX_N, -1);",
             "struct Edge {",
@@ -1016,6 +1023,7 @@
 
     "cross_product": {
         "prefix": "cross_product",
+        "scope": "cpp",
         "body": [
             "struct pnt {",
             "    ll x; ll y;",
@@ -1030,6 +1038,7 @@
 
     "is_intersect": {
         "prefix": "is_intersect",
+        "scope": "cpp",
         "body": [
             "struct pnt {",
             "    ll x; ll y;",
@@ -1058,6 +1067,7 @@
 
     "weightedunionfind": {
         "prefix": "weightedunionfind",
+        "scope": "cpp",
         "body": [
             "template <typename T>",
             "struct WeightedUnionFind {",
@@ -1106,6 +1116,7 @@
 
     "reversepolishnotation": {
         "prefix": "reversepolishnotation",
+        "scope": "cpp",
         "body": [
             "ll ReversePolishNotation(vector<string> vec) {",
             "    stack<ll> s;",
@@ -1129,6 +1140,7 @@
 
     "modpow": {
         "prefix": "modpow",
+        "scope": "cpp",
         "body": [
             "ll modpow(ll x, ll n, ll mod) {",
             "    ll res = 1;",
@@ -1148,6 +1160,7 @@
 
     "kruscal": {
         "prefix": "kruscal",
+        "scope": "cpp",
         "body": [
             "struct UnionFind {",
             "    // par[i] := parent of i",
@@ -1231,6 +1244,7 @@
 
     "topological_sort": {
         "prefix": "topological_sort",
+        "scope": "cpp",
         "body": [
             "vector<int> topological_sort(vector<vector<int> > &G, vector<int> &indegree) {",
             "    // 入力の段階で indegree をいじっておくことを忘れない！",
@@ -1256,6 +1270,7 @@
 
     "simple_primefact": {
         "prefix": "simple_primefact",
+        "scope": "cpp",
         "body": [
             "template <typename T>",
             "struct SimplePrimeFact {",
@@ -1302,6 +1317,7 @@
 
     "rapid_primefact": {
         "prefix": "rapid_primefact",
+        "scope": "cpp",
         "body": [
             "/*  PrimeFact",
             "    init(N): 初期化。O(N log log N)",
@@ -1351,33 +1367,38 @@
 
     "combination": {
         "prefix": "combination",
+        "scope": "cpp",
         "body": [
             "const int MAX_N = 1000100;",
-            "ll fact[MAX_N], fact_inv[MAX_N], inv[MAX_N];",
+            "long long fact[MAX_N], fact_inv[MAX_N], inv[MAX_N];",
             "",
             "void combInit() {",
             "    fact[0] = fact[1] = 1;",
             "    fact_inv[0] = fact_inv[1] = 1;",
             "    inv[1] = 1;",
-            "    rep(i, 2, MAX_N) {",
-            "        fact[i] = fact[i-1] * i % MOD;",
+            "    for (int i = 2; i < MAX_N; i++) {",
+            "        fact[i] = fact[i - 1] * i % MOD;",
             "        inv[i] = MOD - inv[MOD % i] * (MOD / i) % MOD;",
-            "        fact_inv[i] = fact_inv[i-1] * inv[i] % MOD;",
+            "        fact_inv[i] = fact_inv[i - 1] * inv[i] % MOD;",
             "    }",
             "}",
             "",
-            "ll comb(int n, int k) {",
+            "long long comb(int n, int k) {",
             "    if (n < k) return 0;",
             "    if (n < 0 or k < 0) return 0;",
-            "    return fact[n] * (fact_inv[k] * fact_inv[n-k] % MOD) % MOD;",
+            "    return fact[n] * (fact_inv[k] * fact_inv[n - k] % MOD) % MOD;",
             "}",
             "",
+            "long long rep_comb(int n, int k) {",
+            "    return comb(n + k - 1, k);",
+            "}",
         ],
         "description": ""
     },
 
     "fenwick_tree": {
         "prefix": "fenwick_tree",
+        "scope": "cpp",
         "body": [
             "template <typename T>",
             "struct FenwickTree {",
@@ -1430,6 +1451,7 @@
 
     "segment_tree": {
         "prefix": "segment_tree",
+        "scope": "cpp",
         "body": [
             "template <typename X>",
             "struct SegTree {",
@@ -1499,6 +1521,7 @@
 
     "unionfind_2d": {
         "prefix": "unionfind_2d",
+        "scope": "cpp",
         "body": [
             "struct UnionFind2D {",
             "    vector<vector<pair<int, int>>> par;",
@@ -1546,6 +1569,7 @@
 
     "doubling": {
         "prefix": "doubling",
+        "scope": "cpp",
         "body": [
             "struct Doubling {",
             "    int N;",
@@ -1609,6 +1633,7 @@
 
     "range_fenwick_tree": {
         "prefix": "range_fenwick_tree",
+        "scope": "cpp",
         "body": [
             "// 0-indexed で使えます",
             "template <typename T>",
@@ -1667,6 +1692,7 @@
 
     "dfs_bfs_tree": {
         "prefix": "dfs_bfs_tree",
+        "scope": "cpp",
         "body": [
             "struct DfsBfsTree {",
             "    vector<vector<int>> edges;",
@@ -1725,6 +1751,7 @@
 
     "bipartite_graph": {
         "prefix": "bipartite_graph",
+        "scope": "cpp",
         "body": [
             "struct UnionFind {",
             "    vector<int> par, rank, siz;",
@@ -1797,6 +1824,7 @@
 
     "make_sentinel": {
         "prefix": "make_sentinel",
+        "scope": "cpp",
         "body": [
             "/* ",
             "    2次元 vector : A の周囲 4 辺に番兵を設定します",
@@ -1828,6 +1856,7 @@
 
     "z_algorithm": {
         "prefix": "z_algorithm",
+        "scope": "cpp",
         "body": [
             "/*",
             "    Z 配列 (Z[i] := S と S[i:] の最長共通接頭辞) を作成",
@@ -1886,6 +1915,7 @@
 
     "rolling_hash": {
         "prefix": "rolling_hash",
+        "scope": "cpp",
         "body": [
             "struct RollingHash {",
             "    // Ref : https://github.com/Capobmb/CPcpp_library/blob/main/RollingHash.cpp",
@@ -1994,6 +2024,7 @@
 
     "trie_basic": {
         "prefix": "trie_basic",
+        "scope": "cpp",
         "body": [
             "/// @brief Trie 木, insert (単語の挿入), search (単語の検索)",
             "/// @tparam alphabet_size 文字列の種類数 (26など)",
@@ -2071,6 +2102,7 @@
 
     "trie": {
         "prefix": "trie_ext",
+        "scope": "cpp",
         "body": [
             "/* Trie 木： 文字の種類 (char_size) 、int型で0に対応する文字 (base)",
             "    insert(word): 単語 word を Trie 木に挿入する",
@@ -2164,6 +2196,7 @@
 
     "accumulate_2d": {
         "prefix": "accumulate_2d",
+        "scope": "cpp",
         "body": [
             "template <typename T>",
             "struct Accumulate2D {",
@@ -2194,5 +2227,437 @@
         "description": ""
     },
 
+    "lazy_segment_tree": {
+        "prefix": "lazy_segment_tree",
+        "scope": "cpp",
+        "body": [
+            "// Ref : https://atcoder.github.io/ac-library/document_ja/lazysegtree.html",
+            "namespace internal {",
+            "",
+            "// @param n `0 <= n`",
+            "// @return minimum non-negative `x` s.t. `n <= 2**x`",
+            "int ceil_pow2(int n) {",
+            "    int x = 0;",
+            "    while ((1U << x) < (unsigned int)(n)) x++;",
+            "    return x;",
+            "}",
+            "",
+            "// @param n `1 <= n`",
+            "// @return minimum non-negative `x` s.t. `(n & (1 << x)) != 0`",
+            "int bsf(unsigned int n) {",
+            "#ifdef _MSC_VER",
+            "    unsigned long index;",
+            "    _BitScanForward(&index, n);",
+            "    return index;",
+            "#else",
+            "    return __builtin_ctz(n);",
+            "#endif",
+            "}",
+            "",
+            "}  // namespace internal",
+            "",
+            "template <class S, S (*op)(S, S), S (*e)(), class F, S (*mapping)(F, S),",
+            "          F (*composition)(F, F), F (*id)()>",
+            "struct LazySegTree {",
+            "   public:",
+            "    LazySegTree() : LazySegTree(0) {}",
+            "    LazySegTree(int n) : LazySegTree(std::vector<S>(n, e())) {}",
+            "    LazySegTree(const std::vector<S>& v) : _n(int(v.size())) {",
+            "        log = internal::ceil_pow2(_n);",
+            "        size = 1 << log;",
+            "        d = std::vector<S>(2 * size, e());",
+            "        lz = std::vector<F>(size, id());",
+            "        for (int i = 0; i < _n; i++) d[size + i] = v[i];",
+            "        for (int i = size - 1; i >= 1; i--) {",
+            "            update(i);",
+            "        }",
+            "    }",
+            "",
+            "    void set(int p, S x) {",
+            "        assert(0 <= p && p < _n);",
+            "        p += size;",
+            "        for (int i = log; i >= 1; i--) push(p >> i);",
+            "        d[p] = x;",
+            "        for (int i = 1; i <= log; i++) update(p >> i);",
+            "    }",
+            "",
+            "    S get(int p) {",
+            "        assert(0 <= p && p < _n);",
+            "        p += size;",
+            "        for (int i = log; i >= 1; i--) push(p >> i);",
+            "        return d[p];",
+            "    }",
+            "",
+            "    S prod(int l, int r) {",
+            "        assert(0 <= l && l <= r && r <= _n);",
+            "        if (l == r) return e();",
+            "",
+            "        l += size;",
+            "        r += size;",
+            "",
+            "        for (int i = log; i >= 1; i--) {",
+            "            if (((l >> i) << i) != l) push(l >> i);",
+            "            if (((r >> i) << i) != r) push(r >> i);",
+            "        }",
+            "",
+            "        S sml = e(), smr = e();",
+            "        while (l < r) {",
+            "            if (l & 1) sml = op(sml, d[l++]);",
+            "            if (r & 1) smr = op(d[--r], smr);",
+            "            l >>= 1;",
+            "            r >>= 1;",
+            "        }",
+            "",
+            "        return op(sml, smr);",
+            "    }",
+            "",
+            "    S all_prod() { return d[1]; }",
+            "",
+            "    void apply(int p, F f) {",
+            "        assert(0 <= p && p < _n);",
+            "        p += size;",
+            "        for (int i = log; i >= 1; i--) push(p >> i);",
+            "        d[p] = mapping(f, d[p]);",
+            "        for (int i = 1; i <= log; i++) update(p >> i);",
+            "    }",
+            "    void apply(int l, int r, F f) {",
+            "        assert(0 <= l && l <= r && r <= _n);",
+            "        if (l == r) return;",
+            "",
+            "        l += size;",
+            "        r += size;",
+            "",
+            "        for (int i = log; i >= 1; i--) {",
+            "            if (((l >> i) << i) != l) push(l >> i);",
+            "            if (((r >> i) << i) != r) push((r - 1) >> i);",
+            "        }",
+            "",
+            "        {",
+            "            int l2 = l, r2 = r;",
+            "            while (l < r) {",
+            "                if (l & 1) all_apply(l++, f);",
+            "                if (r & 1) all_apply(--r, f);",
+            "                l >>= 1;",
+            "                r >>= 1;",
+            "            }",
+            "            l = l2;",
+            "            r = r2;",
+            "        }",
+            "",
+            "        for (int i = 1; i <= log; i++) {",
+            "            if (((l >> i) << i) != l) update(l >> i);",
+            "            if (((r >> i) << i) != r) update((r - 1) >> i);",
+            "        }",
+            "    }",
+            "",
+            "    /// @brief ",
+            "    /// @tparam g bool g(S x)",
+            "    /// @param l ",
+            "    /// @return g(op(a[l], ... , a[r - 1])) = true となる最大の r",
+            "    template <bool (*g)(S)>",
+            "    int max_right(int l) {",
+            "        return max_right(l, [](S x) { return g(x); });",
+            "    }",
+            "    template <class G>",
+            "    int max_right(int l, G g) {",
+            "        assert(0 <= l && l <= _n);",
+            "        assert(g(e()));",
+            "        if (l == _n) return _n;",
+            "        l += size;",
+            "        for (int i = log; i >= 1; i--) push(l >> i);",
+            "        S sm = e();",
+            "        do {",
+            "            while (l % 2 == 0) l >>= 1;",
+            "            if (!g(op(sm, d[l]))) {",
+            "                while (l < size) {",
+            "                    push(l);",
+            "                    l = (2 * l);",
+            "                    if (g(op(sm, d[l]))) {",
+            "                        sm = op(sm, d[l]);",
+            "                        l++;",
+            "                    }",
+            "                }",
+            "                return l - size;",
+            "            }",
+            "            sm = op(sm, d[l]);",
+            "            l++;",
+            "        } while ((l & -l) != l);",
+            "        return _n;",
+            "    }",
+            "",
+            "    /// @brief ",
+            "    /// @tparam g bool g(S x)",
+            "    /// @param r ",
+            "    /// @return g(op(a[l], ... , a[r - 1])) = true となる最小の l",
+            "    template <bool (*g)(S)>",
+            "    int min_left(int r) {",
+            "        return min_left(r, [](S x) { return g(x); });",
+            "    }",
+            "    template <class G>",
+            "    int min_left(int r, G g) {",
+            "        assert(0 <= r && r <= _n);",
+            "        assert(g(e()));",
+            "        if (r == 0) return 0;",
+            "        r += size;",
+            "        for (int i = log; i >= 1; i--) push((r - 1) >> i);",
+            "        S sm = e();",
+            "        do {",
+            "            r--;",
+            "            while (r > 1 && (r % 2)) r >>= 1;",
+            "            if (!g(op(d[r], sm))) {",
+            "                while (r < size) {",
+            "                    push(r);",
+            "                    r = (2 * r + 1);",
+            "                    if (g(op(d[r], sm))) {",
+            "                        sm = op(d[r], sm);",
+            "                        r--;",
+            "                    }",
+            "                }",
+            "                return r + 1 - size;",
+            "            }",
+            "            sm = op(d[r], sm);",
+            "        } while ((r & -r) != r);",
+            "        return 0;",
+            "    }",
+            "",
+            "   private:",
+            "    int _n, size, log;",
+            "    std::vector<S> d;",
+            "    std::vector<F> lz;",
+            "",
+            "    void update(int k) { d[k] = op(d[2 * k], d[2 * k + 1]); }",
+            "    void all_apply(int k, F f) {",
+            "        d[k] = mapping(f, d[k]);",
+            "        if (k < size) lz[k] = composition(f, lz[k]);",
+            "    }",
+            "    void push(int k) {",
+            "        all_apply(2 * k, lz[k]);",
+            "        all_apply(2 * k + 1, lz[k]);",
+            "        lz[k] = id();",
+            "    }",
+            "};",
+            "",
+            "// data の型",
+            "struct S {",
+            "    ",
+            "};",
+            "",
+            "// lazy の型",
+            "struct F {",
+            "",
+            "};",
+            "",
+            "// 区間取得の二項演算",
+            "S op(S a, S b) {",
+            "",
+            "}",
+            "",
+            "// 区間取得した結果に区間変更を入れるとどうなるか",
+            "S mapping(F f, S x) {",
+            "",
+            "}",
+            "",
+            "// 区間変更の合成写像",
+            "F composition(F f, F g) {",
+            "",
+            "}",
+            "",
+            "// 恒等写像 ",
+            "// 区間更新の場合は取り得ない値を入れて、mapping と composition で条件分岐する",
+            "F id() {",
+            "",
+            "}",
+            "",
+            "// data の単位元",
+            "S e() {",
+            "",
+            "}",
+        ],
+        "description": ""
+    },
+
+    "rotate_point": {
+        "prefix": "rotate_point",
+        "scope": "cpp",
+        "body": [
+            "const double PI = 3.141592653589793238462643383279;",
+            "pair<double, double> rotate_point(double cx, double cy, double base_x, double base_y, double theta) {",
+            "    complex<double> comp(cx - base_x, cy - base_y);",
+            "    comp *= exp(complex<double>(.0, theta * PI / 180.0));",
+            "    return make_pair(comp.real() + base_x, comp.imag() + base_y);",
+            "}",
+        ],
+        "description": ""
+    },
+
+    "count_continuous_elements": {
+        "prefix": "count_continuous_elements",
+        "scope": "cpp",
+        "body": [
+            "template<typename T>",
+            "int count_continuous_elements(vector<T> &v, bool cyclic=false) {",
+            "    int n = (int)v.size();",
+            "    if (n == 1) return 1;",
+            "",
+            "    int res = 0, cnt = 0;",
+            "",
+            "    if (cyclic) {",
+            "        vector<T> v2(2 * n);",
+            "        for (int i = 0; i < n; i++) v2[i] = v2[i + n] = v[i];",
+            "        for (int i = 0; i < 2 * n - 1; i++) {",
+            "            cnt++;",
+            "            if (v2[i] != v2[i + 1]) {",
+            "                res = max(res, cnt);",
+            "                cnt = 0;",
+            "            }",
+            "        }",
+            "        cnt += (v2[2 * n - 2] == v2[2 * n - 1]);",
+            "        res = max(res, cnt);",
+            "        res = min(res, n);",
+            "    } else {",
+            "        for (int i = 0; i < n - 1; i++) {",
+            "            cnt++;",
+            "            if (v[i] != v[i + 1]) {",
+            "                res = max(res, cnt);",
+            "                cnt = 0;",
+            "            }",
+            "        }",
+            "        cnt += (v[n - 2] == v[n - 1]);",
+            "        res = max(res, cnt);",
+            "    }",
+            "",
+            "    return res;",
+            "}",
+        ],
+        "description": ""
+    },
+
+    "geom_point": {
+        "prefix": "geom_point",
+        "scope": "cpp",
+        "body": [
+            "struct Point {",
+            "    long long x, y;",
+            "",
+            "    Point(long long x_ = 0, long long y_ = 0) : x(x_), y(y_) {}",
+            "",
+            "    // bool operator== (const Point& other) const {",
+            "    //     return x == other.x && y == other.y;",
+            "    // }",
+            "    // bool operator!= (const Point& other) const {",
+            "    //     return x != other.x || y != other.y;",
+            "    // }",
+            "",
+            "    // // 通常の比較演算子 (pair と同じ挙動)",
+            "    // bool operator< (const Point& other) const {",
+            "    //     if (x == other.x) return y < other.y;",
+            "    //     else return x < other.x;",
+            "    // }",
+            "",
+            "    // 偏角ソート用 (角度が等しければ true)",
+            "    bool operator== (const Point& other) const {",
+            "        return x * other.y - other.x * y == 0;",
+            "    }",
+            "    bool operator!= (const Point& other) const {",
+            "        return x * other.y - other.x * y != 0;",
+            "    }",
+            "",
+            "    // 偏角ソート用 (反時計回りの偏角が 180 度未満なら true)",
+            "    bool operator< (const Point& other) const {",
+            "        return x * other.y - other.x * y > 0;",
+            "    }",
+            "};",
+        ],
+        "description": ""
+    },
+
+    "fraction": {
+        "prefix": "fraction",
+        "body": [
+            "struct Fraction {",
+            "    long long numerator;        // 分子",
+            "    long long denominator;      // 分母",
+            "    bool is_inf = false;        // +- infinity か",
+            "    bool is_zero = false;       // 0 か",
+            "    bool is_minus = false;      // 数として負か",
+            "    bool is_both_zero = false;  // 分母も分子も 0 (扱い分からん！)",
+            "",
+            "    Fraction(long long numerator_, long long denominator_) {",
+            "        if (numerator_ == 0) is_zero = true;",
+            "        if (denominator_ == 0) {",
+            "            if (numerator_ == 0) is_both_zero = true;",
+            "            is_inf = true;",
+            "            if (numerator_ < 0) is_minus = true;",
+            "        } else {",
+            "            is_inf = false;",
+            "            if ((numerator_ < 0 && denominator_ > 0) ||",
+            "                (numerator_ > 0 && denominator_ < 0)) {",
+            "                is_minus = true;",
+            "                numerator_ = abs(numerator_);",
+            "                denominator_ = abs(denominator_);",
+            "            }",
+            "            if (numerator_ != 0) {",
+            "                long long g = __gcd(denominator_, numerator_);",
+            "                denominator = denominator_ / g;",
+            "                numerator = numerator_ / g;",
+            "            } else {",
+            "                denominator = denominator_;",
+            "                numerator = numerator_;",
+            "            }",
+            "        }",
+            "    }",
+            "",
+            "    bool operator==(const Fraction& other) const {",
+            "        // 両方 +- inf のとき",
+            "        if (is_minus == other.is_minus && is_inf && other.is_inf) return true;",
+            "        if (is_both_zero != other.is_both_zero) return false;",
+            "        // 両方 0 のとき",
+            "        if (numerator == 0 && other.numerator == 0) return true;",
+            "        // それ以外",
+            "        return is_minus == other.is_minus && denominator == other.denominator &&",
+            "               numerator == other.numerator;",
+            "    }",
+            "",
+            "    // オーバーフロー注意",
+            "    bool operator<(const Fraction& other) const {",
+            "        if (is_inf && other.is_inf) return is_minus < other.is_minus;",
+            "        if (is_inf) return true;",
+            "        if (is_minus && is_inf) return false;",
+            "",
+            "        if (numerator == 0) {",
+            "            return other.numerator && !other.is_minus;",
+            "        }",
+            "",
+            "        if (is_minus) {",
+            "            if (!other.is_minus) return true;",
+            "            return numerator * other.denominator >",
+            "                   other.numerator * denominator;",
+            "        } else {",
+            "            return numerator * other.denominator <",
+            "                   other.numerator * denominator;",
+            "        }",
+            "    }",
+            "",
+            "    // -1 倍する",
+            "    Fraction minus() {",
+            "        if (is_minus) return Fraction{numerator, denominator};",
+            "        return Fraction{-numerator, denominator};",
+            "    }",
+            "",
+            "    // 逆数を取る",
+            "    Fraction inv() {",
+            "        if (is_minus) return Fraction{-denominator, numerator};",
+            "        return Fraction{denominator, numerator};",
+            "    }",
+            "};",
+            "",
+            "ostream& operator<<(ostream& st, const Fraction f) {",
+            "    if (f.is_minus) st << \"-\";",
+            "    st << f.numerator << \"/\" << f.denominator;",
+            "    return st;",
+            "};",
+        ],
+        "description": ""
+    },
 
 }
