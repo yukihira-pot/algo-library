@@ -31,7 +31,7 @@ struct Trie {
             int c = (int)(word[i] - base);
             int &next_id = nodes[node_id].next[c];
             if (next_id == -1) {  // 次の頂点が存在しなければ追加
-                next_id = (int)nodes.size();
+                next_id = (int)nodes.size(); // 今見ている頂点に next_id を追加
                 nodes.push_back(Node(c));
             }
             ++nodes[node_id].common;
@@ -57,7 +57,6 @@ struct Trie {
         }
         return (prefix) ? true : nodes[node_id].accept.size() > 0;
     }
-
 
     // prefix を持つ単語が存在するかの検索
     bool start_with(const string &prefix) {
