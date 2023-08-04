@@ -18,24 +18,67 @@
 
     "cpmain": {
         "prefix": "cpmain",
-        "scope": "cpp",
         "body": [
-            "/*",
-            "    date: $CURRENT_YEAR-$CURRENT_MONTH-$CURRENT_DATE $CURRENT_HOUR:$CURRENT_MINUTE",
-            "*/",
+            "#include <bits/stdc++.h>",
+            "using namespace std;",
             "",
-            "// # language C++",
+            "#define _overload(_1, _2, _3, name, ...) name",
+            "#define rep2(i, n) rep3(i, 0, n)",
+            "#define rep3(i, a, b) for (ll i = (a); i < (ll)(b); i++)",
+            "#define rep(...) _overload(__VA_ARGS__, rep3, rep2)(__VA_ARGS__)",
+            "#define rrep(i, a, b) for (ll i = a; i >= b; i--)",
+            "#define fore(e, a) for (auto &&e : a)",
+            "#define all(x) (x).begin(), (x).end()",
             "",
-            "#ifndef INCLUDED_MAIN",
-            "#define INCLUDED_MAIN",
-            "#include __FILE__",
+            "template <typename T>",
+            "using V = vector<T>;",
+            "using ll = long long;",
+            "using ull = unsigned long long;",
             "",
-            "using mint = ModInt<998244353>;",
-            "// using mint = ModInt<1000000007>;",
+            "template <typename T>",
+            "istream &operator>>(istream &is, vector<T> &v) {",
+            "    for (T &e : v) is >> e;",
+            "    return is;",
+            "}",
             "",
-            "using vm = vector<mint>;",
-            "using vvm = vector<vm>;",
-            "using vvvm = vector<vvm>;",
+            "template <typename T>",
+            "ostream &operator<<(ostream &os, const vector<T> &v) {",
+            "    int sz = (int)v.size();",
+            "    rep(i, sz) { os << v[i] << (i + 1 == sz ? \"\" : \" \"); }",
+            "    return os;",
+            "}",
+            "",
+            "template <typename T, typename U>",
+            "inline bool chmin(T &a, U b) {",
+            "    if (a > b) {",
+            "        a = b;",
+            "        return true;",
+            "    }",
+            "    return 0;",
+            "}",
+            "template <typename T, typename U>",
+            "inline bool chmax(T &a, U b) {",
+            "    if (a < b) {",
+            "        a = b;",
+            "        return true;",
+            "    }",
+            "    return 0;",
+            "}",
+            "",
+            "#ifdef LOCAL",
+            "#include \"assets/debug.h\"",
+            "#else",
+            "#define debug(...) (void(0))",
+            "#endif",
+            "",
+            "const int dx[] = {0, 0, 1, -1, 1, 1, -1, -1};",
+            "const int dy[] = {1, -1, 0, 0, -1, 1, -1, 1};",
+            "",
+            "const int INFI = 1 << 30;   // 1.07e9",
+            "const ll INFL = 1ll << 61;  // 2.30e18",
+            "",
+            "/* ------start coding here------ */",
+            "",
             "",
             "",
             "",
@@ -44,413 +87,106 @@
             "}",
             "",
             "int main() {",
-            "    cin.tie(0); ios::sync_with_stdio(false); ",
-            "    cout << fixed << setprecision(12);",
+            "    cin.tie(nullptr);",
+            "    ios::sync_with_stdio(false);",
             "",
             "    int testcases = 1;",
             "    // cin >> testcases;",
-            "    while (testcases--) solve();",
+            "    while (testcases--) {",
+            "        solve();",
+            "    }",
             "}",
-            "",
-            "#else // INCLUDED_MAIN",
-            "",
-            "#ifdef poyo",
-            "",
-            "#include \"my_pch.h\"",
-            "",
-            "#else",
-            "",
-            "#include <algorithm>",
-            "#include <bitset>",
-            "#include <cassert>",
-            "#include <chrono>",
-            "#include <cmath>",
-            "#include <complex>",
-            "#include <deque>",
-            "#include <functional>",
-            "#include <iomanip>",
-            "#include <iostream>",
-            "#include <limits>",
-            "#include <map>",
-            "#include <numeric>",
-            "#include <queue>",
-            "#include <random>",
-            "#include <set>",
-            "#include <stack>",
-            "#include <unordered_map>",
-            "#include <vector>",
-            "",
-            "using namespace std;",
-            "using ll = long long;",
-            "using vi = vector<int>;",
-            "using vvi = vector<vi>;",
-            "using vvvi = vector<vvi>;",
-            "using vl = vector<ll>;",
-            "using vvl = vector<vl>;",
-            "using vvvl = vector<vvl>;",
-            "using vb = vector<bool>;",
-            "using vvb = vector<vb>;",
-            "using pii = pair<int, int>;",
-            "using pli = pair<ll, int>;",
-            "using pll = pair<ll, ll>;",
-            "using vpl = vector<pll>;",
-            "",
-            "#define _overload(_1, _2, _3, name, ...) name",
-            "#define rep1(n) rep3(____, 0, n)",
-            "#define rep2(i, n) rep3(i, 0, n)",
-            "#define rep3(i, a, b) for (ll i = (a); i < (ll)(b); i++)",
-            "#define rep(...) _overload(__VA_ARGS__, rep3, rep2, rep1)(__VA_ARGS__)",
-            "",
-            "#define rrep(i, a, b) for (ll i = (a); i >= (b); i--)",
-            "#define fore(i, a) for (auto&& i : a)",
-            "#define all(x) (x).begin(), (x).end()",
-            "#define pb push_back",
-            "",
-            "#define UNIQUIFY(v) v.erase(unique(v.begin(), v.end()), v.end());",
-            "#define out(x) \\",
-            "    { cout << fixed << setprecision(12) << x << \"\\n\"; }",
-            "#define dbg(x) \\",
-            "    { cerr << #x << \": \" << x << \"\\n\"; }",
-            "#define inc(x, l, r) ((l) <= (x) and (x) < (r))",
-            "",
-            "const int INFI = 1 << 30;",
-            "const ll INFL = 1LL << 60;",
-            "",
-            "template <typename S, typename T>",
-            "bool chmax(S& a, const T& b) {",
-            "    if (a < b) {",
-            "        a = b;",
-            "        return 1;",
-            "    }",
-            "    return 0;",
-            "}",
-            "template <typename S, typename T>",
-            "bool chmin(S& a, const T& b) {",
-            "    if (b < a) {",
-            "        a = b;",
-            "        return 1;",
-            "    }",
-            "    return 0;",
-            "}",
-            "",
-            "template <class... T>",
-            "constexpr auto min(T... a) {",
-            "    return min(initializer_list<common_type_t<T...>>{a...});",
-            "}",
-            "template <class... T>",
-            "constexpr auto max(T... a) {",
-            "    return max(initializer_list<common_type_t<T...>>{a...});",
-            "}",
-            "",
-            "template <typename T>",
-            "long long equal_or_smaller_nums(T elem, vector<T> &v) {",
-            "    return upper_bound(v.begin(), v.end(), elem) - v.begin();",
-            "}",
-            "",
-            "template <typename T>",
-            "long long smaller_nums(T elem, vector<T> &v) {",
-            "    return lower_bound(v.begin(), v.end(), elem) - v.begin();",
-            "}",
-            "",
-            "template <typename T>",
-            "long long equal_or_larger_nums(T elem, vector<T> &v) {",
-            "    return v.end() - lower_bound(v.begin(), v.end(), elem);",
-            "}",
-            "",
-            "template <typename T>",
-            "long long larger_nums(T elem, vector<T> &v) {",
-            "    return v.end() - upper_bound(v.begin(), v.end(), elem);",
-            "}",
-            "template <typename T>",
-            "long long equal_nums(T elem, vector<T>& v) {",
-            "    return upper_bound(v.begin(), v.end(), elem) -",
-            "           lower_bound(v.begin(), v.end(), elem);",
-            "}",
-            "",
-            "template <typename T>",
-            "ostream& operator<<(ostream& os, const vector<T>& v) {",
-            "    int sz = (int)v.size();",
-            "    for (int i = 0; i < sz; i++) {",
-            "        os << v[i] << (i == sz - 1 ? \"\" : \" \");",
-            "    }",
-            "    return os;",
-            "}",
-            "",
-            "template <typename T>",
-            "istream& operator>>(istream& is, vector<T>& v) {",
-            "    int sz = (int)v.size();",
-            "    for (int i = 0; i < sz; i++) {",
-            "        is >> v[i];",
-            "    }",
-            "    return is;",
-            "}",
-            "",
-            "template <int MOD>",
-            "struct ModInt {",
-            "    static const int Mod = MOD;",
-            "    unsigned x;",
-            "    ModInt() : x(0) {}",
-            "    ModInt(signed sig) { x = sig < 0 ? sig % MOD + MOD : sig % MOD; }",
-            "    ModInt(signed long long sig) { x = sig < 0 ? sig % MOD + MOD : sig % MOD; }",
-            "    int get() const { return (int)x; }",
-            "    ModInt& operator+=(ModInt that) {",
-            "        if ((x += that.x) >= MOD) x -= MOD;",
-            "        return *this;",
-            "    }",
-            "    ModInt& operator-=(ModInt that) {",
-            "        if ((x += MOD - that.x) >= MOD) x -= MOD;",
-            "        return *this;",
-            "    }",
-            "    ModInt& operator*=(ModInt that) {",
-            "        x = (unsigned long long)x * that.x % MOD;",
-            "        return *this;",
-            "    }",
-            "    ModInt& operator/=(ModInt that) { return *this *= that.inv(); }",
-            "    ModInt operator+(ModInt that) const { return ModInt(*this) += that; }",
-            "    ModInt operator-(ModInt that) const { return ModInt(*this) -= that; }",
-            "    ModInt operator*(ModInt that) const { return ModInt(*this) *= that; }",
-            "    ModInt operator/(ModInt that) const { return ModInt(*this) /= that; }",
-            "    ModInt& operator++() {",
-            "        x++;",
-            "        if (x == MOD) x = 0;",
-            "        return *this;",
-            "    }",
-            "    ModInt& operator--() {",
-            "        if (x == 0) x = MOD;",
-            "        x--;",
-            "        return *this;",
-            "    }",
-            "    ModInt operator++(int) {",
-            "        ModInt result = *this;",
-            "        ++*this;",
-            "        return result;",
-            "    }",
-            "    ModInt operator--(int) {",
-            "        ModInt result = *this;",
-            "        --*this;",
-            "        return result;",
-            "    }",
-            "    bool operator==(ModInt that) const { return x == that.x; }",
-            "    bool operator!=(ModInt that) const { return x != that.x; }",
-            "    ModInt operator-() const {",
-            "        ModInt t;",
-            "        t.x = x == 0 ? 0 : Mod - x;",
-            "        return t;",
-            "    }",
-            "",
-            "    ModInt inv() const {",
-            "        long long a = x, b = MOD, u = 1, v = 0;",
-            "        while (b) {",
-            "            long long t = a / b;",
-            "            a -= t * b;",
-            "            std::swap(a, b);",
-            "            u -= t * v;",
-            "            std::swap(u, v);",
-            "        }",
-            "        return ModInt(u);",
-            "    }",
-            "",
-            "    ModInt pow(long long n) const {",
-            "        assert(0 <= n);",
-            "        ModInt x = *this, r = 1;",
-            "        while (n) {",
-            "            if (n & 1) r *= x;",
-            "            x *= x;",
-            "            n >>= 1;",
-            "        }",
-            "        return r;",
-            "    }",
-            "",
-            "};",
-            "template <int MOD>",
-            "ostream& operator<<(ostream& st, const ModInt<MOD> a) {",
-            "    st << a.get();",
-            "    return st;",
-            "};",
-            "",
-            "int dx[] = {0, -1, 0, 1, -1, -1, 1, 1};",
-            "int dy[] = {-1, 0, 1, 0, 1, -1, -1, 1};",
-            "",
-            "#endif // poyo",
-            "#endif // INCLUDED_MAIN",
         ],
         "description": ""
     },
 
-
     "cfmain": {
         "prefix": "cfmain",
-        "scope": "cpp",
         "body": [
-            "#ifdef poyo",
-            "",
-            "#include \"my_pch.h\"",
-            "",
-            "#else",
-            "",
-            "#include <algorithm>",
-            "#include <bitset>",
-            "#include <cassert>",
-            "#include <cmath>",
-            "#include <deque>",
-            "#include <functional>",
-            "#include <iomanip>",
-            "#include <iostream>",
-            "#include <limits>",
-            "#include <map>",
-            "#include <numeric>",
-            "#include <queue>",
-            "#include <random>",
-            "#include <set>",
-            "#include <stack>",
-            "#include <unordered_map>",
-            "#include <vector>",
-            "",
+            "#include <bits/stdc++.h>",
             "using namespace std;",
-            "using ll = long long;",
-            "using vi = vector<int>;",
-            "using vvi = vector<vi>;",
-            "using vvvi = vector<vvi>;",
-            "using vl = vector<ll>;",
-            "using vvl = vector<vl>;",
-            "using vvvl = vector<vvl>;",
-            "using vb = vector<bool>;",
-            "using vvb = vector<vb>;",
-            "using pii = pair<int, int>;",
-            "using pli = pair<ll, int>;",
-            "using pll = pair<ll, ll>;",
             "",
             "#define _overload(_1, _2, _3, name, ...) name",
-            "#define rep1(n) rep3(____, 0, n)",
             "#define rep2(i, n) rep3(i, 0, n)",
             "#define rep3(i, a, b) for (ll i = (a); i < (ll)(b); i++)",
-            "#define rep(...) _overload(__VA_ARGS__, rep3, rep2, rep1)(__VA_ARGS__)",
-            "",
+            "#define rep(...) _overload(__VA_ARGS__, rep3, rep2)(__VA_ARGS__)",
             "#define rrep(i, a, b) for (ll i = a; i >= b; i--)",
-            "#define fore(i, a) for (auto& i : a)",
+            "#define fore(e, a) for (auto &&e : a)",
             "#define all(x) (x).begin(), (x).end()",
-            "#define pb push_back",
-            "",
-            "#define UNIQUIFY(v) v.erase(unique(v.begin(), v.end()), v.end());",
-            "#define out(x) \\",
-            "    { cout << fixed << setprecision(12) << x << \"\\n\"; }",
-            "#define dbg(x) \\",
-            "    { cerr << #x << \": \" << x << \"\\n\"; }",
-            "#define inc(x, l, r) ((l) <= (x) and (x) < (r))",
-            "",
-            "const int INFI = 1 << 30;",
-            "const ll INFL = 1LL << 60;",
-            "",
-            "template <typename S, typename T>",
-            "bool chmax(S& a, const T& b) {",
-            "    if (a < b) {",
-            "        a = b;",
-            "        return 1;",
-            "    }",
-            "    return 0;",
-            "}",
-            "template <typename S, typename T>",
-            "bool chmin(S& a, const T& b) {",
-            "    if (b < a) {",
-            "        a = b;",
-            "        return 1;",
-            "    }",
-            "    return 0;",
-            "}",
-            "",
-            "template <class... T>",
-            "constexpr auto min(T... a) {",
-            "    return min(initializer_list<common_type_t<T...>>{a...});",
-            "}",
-            "template <class... T>",
-            "constexpr auto max(T... a) {",
-            "    return max(initializer_list<common_type_t<T...>>{a...});",
-            "}",
-            "",
-            "int equal_or_smaller_nums(int elem, vector<int> &v) {",
-            "    return upper_bound(v.begin(), v.end(), elem) - v.begin();",
-            "}",
-            "int equal_or_smaller_nums(long long elem, vector<long long> &v) {",
-            "    return upper_bound(v.begin(), v.end(), elem) - v.begin();",
-            "}",
-            "",
-            "int smaller_nums(int elem, vector<int> &v) {",
-            "    return lower_bound(v.begin(), v.end(), elem) - v.begin();",
-            "}",
-            "int smaller_nums(long long elem, vector<long long> &v) {",
-            "    return lower_bound(v.begin(), v.end(), elem) - v.begin();",
-            "}",
-            "",
-            "int equal_or_larger_nums(int elem, vector<int> &v) {",
-            "    return v.end() - lower_bound(v.begin(), v.end(), elem);",
-            "}",
-            "int equal_or_larger_nums(long long elem, vector<long long> &v) {",
-            "    return v.end() - lower_bound(v.begin(), v.end(), elem);",
-            "}",
-            "",
-            "int larger_nums(int elem, vector<int> &v) {",
-            "    return v.end() - upper_bound(v.begin(), v.end(), elem);",
-            "}",
-            "int larger_nums(long long elem, vector<long long> &v) {",
-            "    return v.end() - upper_bound(v.begin(), v.end(), elem);",
-            "}",
             "",
             "template <typename T>",
-            "ostream& operator<<(ostream& os, const vector<T>& v) {",
-            "    int sz = (int)v.size();",
-            "    for (int i = 0; i < sz; i++) {",
-            "        os << v[i] << (i == sz - 1 ? \"\" : \" \");",
-            "    }",
-            "    return os;",
-            "}",
+            "using V = vector<T>;",
+            "using ll = long long;",
+            "using ull = unsigned long long;",
             "",
             "template <typename T>",
-            "istream& operator>>(istream& is, vector<T>& v) {",
-            "    int sz = (int)v.size();",
-            "    for (int i = 0; i < sz; i++) {",
-            "        is >> v[i];",
-            "    }",
+            "istream &operator>>(istream &is, vector<T> &v) {",
+            "    for (T &e : v) is >> e;",
             "    return is;",
             "}",
             "",
-            "int dx[] = {0, -1, 0, 1, -1, -1, 1, 1};",
-            "int dy[] = {-1, 0, 1, 0, 1, -1, -1, 1};",
+            "template <typename T>",
+            "ostream &operator<<(ostream &os, const vector<T> &v) {",
+            "    int sz = (int)v.size();",
+            "    rep(i, sz) { os << v[i] << (i + 1 == sz ? \"\" : \" \"); }",
+            "    return os;",
+            "}",
             "",
+            "template <typename T, typename U>",
+            "inline bool chmin(T &a, U b) {",
+            "    if (a > b) {",
+            "        a = b;",
+            "        return true;",
+            "    }",
+            "    return 0;",
+            "}",
+            "template <typename T, typename U>",
+            "inline bool chmax(T &a, U b) {",
+            "    if (a < b) {",
+            "        a = b;",
+            "        return true;",
+            "    }",
+            "    return 0;",
+            "}",
+            "",
+            "#ifdef LOCAL",
+            "#include \"assets/debug.h\"",
+            "#else",
+            "#define debug(...) (void(0))",
             "#endif",
             "",
-            "// using Graph = vector<vector<int> >;",
+            "const int dx[] = {0, 0, 1, -1, 1, 1, -1, -1};",
+            "const int dy[] = {1, -1, 0, 0, -1, 1, -1, 1};",
             "",
-            "// #include <atcoder/all>",
-            "// const ll MOD = 998244353;",
-            "// const ll MOD = 1000000007; // 1e9 + 7",
-            "// using mint = atcoder::modint998244353;",
-            "// using mint = atcoder::modint1000000007;",
+            "const int INFI = 1 << 30;   // 1.07e9",
+            "const ll INFL = 1ll << 61;  // 2.30e18",
+            "",
+            "/* ------start coding here------ */",
+            "",
             "",
             "",
             "",
             "void solve() {",
-            "    $1",
+            "    ",
             "}",
             "",
             "int main() {",
-            "    cin.tie(0);",
+            "    cin.tie(nullptr);",
             "    ios::sync_with_stdio(false);",
-            "    cout << fixed << setprecision(12);",
             "",
-            "    int t; cin >> t;",
-            "    rep(iii, t) solve();",
+            "    int testcases = 1;",
+            "    cin >> testcases;",
+            "    while (testcases--) {",
+            "        solve();",
+            "    }",
             "}",
-            "",
-            "/*",
-            "    date: $CURRENT_YEAR-$CURRENT_MONTH-$CURRENT_DATE $CURRENT_HOUR:$CURRENT_MINUTE",
-            "*/",
         ],
         "description": ""
     },
 
     "LCA": {
         "prefix": "lowestcommonancestor",
-        "scope": "cpp",
+        
         "body": [
             "struct LowestCommonAncestor {",
             "    // parent[k][v] := v の 2^k 個先の親",
@@ -543,7 +279,7 @@
 
     "treediameter": {
         "prefix": "treediameter",
-        "scope": "cpp",
+        
         "body": [
             "template <typename T>",
             "struct Edge {",
@@ -575,7 +311,7 @@
 
     "stronglyconnectedcomponents": {
         "prefix": "stronglyconnectedcomponents",
-        "scope": "cpp",
+        
         "body": [
             "template <typename T>",
             "struct Edge {",
@@ -651,7 +387,7 @@
 
     "LCS": {
         "prefix": "LCS",
-        "scope": "cpp",
+        
         "body": [
             "int longest_common_sequence(string &S, string &T) {",
             "    int s_sz = S.size();",
@@ -672,7 +408,7 @@
     
     "modint": {
         "prefix": "modint",
-        "scope": "cpp",
+        
         "body": [
             "template <int MOD>",
             "struct ModInt {",
@@ -764,7 +500,7 @@
 
     "factorials": {
         "prefix": "factorials",
-        "scope": "cpp",
+        
         "body": [
             "template <typename T, int FAC_MAX>",
             "struct Factorials {",
@@ -808,7 +544,7 @@
 
     "Eratosthenes": {
         "prefix": "Erathosthenes",
-        "scope": "cpp",
+        
         "body": [
             "/*  PrimeFact",
             "    init(N): 初期化。O(N log log N)",
@@ -847,7 +583,7 @@
 
     "compress": {
         "prefix": "compress",
-        "scope": "cpp",
+        
         "body": [
             "/* compress",
             "    X を座標圧縮して書き換える",
@@ -878,7 +614,7 @@
 
     "RunLength": {
         "prefix": "RunLength",
-        "scope": "cpp",
+        
         "body": [
             "/* encode: ランレングス圧縮を行う",
             "*/",
@@ -911,7 +647,7 @@
 
     "FILL": {
         "prefix": "FILL",
-        "scope": "cpp",
+        
         "body": [
             "// n次元配列の初期化。第２引数の型のサイズごとに初期化していく。",
             "template<typename A, size_t N, typename T>",
@@ -929,7 +665,7 @@
 
     "unionfind": {
         "prefix": "unionfind",
-        "scope": "cpp",
+        
         "body": [
             "struct UnionFind {",
             "    vector<int> par, rank, siz;",
@@ -976,9 +712,8 @@
 
 
 
-    "Dijkstra": {
-        "prefix": "Dijkstra",
-        "scope": "cpp",
+    "dijkstra": {
+        "prefix": "dijkstra",
         "body": [
             "// vector<int> edgenum(MAX_N, -1);",
             "struct Edge {",
@@ -986,31 +721,26 @@
             "    ll cost;",
             "    // int id;",
             "};",
-            "",
+            " ",
             "using Graph = vector<vector<Edge> >;",
-            "",
+            " ",
             "using pli = pair<long long, int>;",
             "void dijkstra(const Graph &G, int s, vector<ll> &dis) {",
-            "    int N = G.size();",
-            "    dis.resize(N, INFL);",
+            "    assert(dis.size() == G.size());",
+            " ",
             "    priority_queue<pli, vector<pli>, greater<pli>> pq;",
             "    dis[s] = 0;",
             "    pq.emplace(dis[s], s);",
-            "",
+            " ",
             "    while (!pq.empty()) {",
-            "        pli p = pq.top();",
-            "        pq.pop();",
-            "        long long cd = p.first;",
-            "        int cv = p.second;",
-            "",
-            "        if (dis[cv] != cd) {",
-            "            continue;",
-            "        }",
-            "",
-            "        for (auto &e : G[cv]) {",
-            "            if (dis[e.to] > dis[cv] + e.cost) { // 最短距離候補",
-            "                dis[e.to] = dis[cv] + e.cost;",
-            "                pq.push({dis[e.to], e.to});",
+            "        auto [cur_d, cur_v] = pq.top(); pq.pop();",
+            " ",
+            "        if (dis[cur_v] != cur_d) continue;",
+            " ",
+            "        for (auto &[nxt_v, nxt_d] : G[cur_v]) {",
+            "            if (dis[nxt_v] > dis[cur_v] + nxt_d) { // 最短距離候補",
+            "                dis[nxt_v] = dis[cur_v] + nxt_d;",
+            "                pq.push({dis[nxt_v], nxt_v});",
             "                // edgenum[e.to] = e.id;",
             "            }",
             "        }",
@@ -1021,9 +751,10 @@
     },
 
 
+
     "cross_product": {
         "prefix": "cross_product",
-        "scope": "cpp",
+        
         "body": [
             "struct pnt {",
             "    ll x; ll y;",
@@ -1038,7 +769,7 @@
 
     "is_intersect": {
         "prefix": "is_intersect",
-        "scope": "cpp",
+        
         "body": [
             "struct pnt {",
             "    ll x; ll y;",
@@ -1067,7 +798,7 @@
 
     "weightedunionfind": {
         "prefix": "weightedunionfind",
-        "scope": "cpp",
+        
         "body": [
             "template <typename T>",
             "struct WeightedUnionFind {",
@@ -1116,7 +847,7 @@
 
     "reversepolishnotation": {
         "prefix": "reversepolishnotation",
-        "scope": "cpp",
+        
         "body": [
             "ll ReversePolishNotation(vector<string> vec) {",
             "    stack<ll> s;",
@@ -1140,7 +871,7 @@
 
     "modpow": {
         "prefix": "modpow",
-        "scope": "cpp",
+        
         "body": [
             "ll modpow(ll x, ll n, ll mod) {",
             "    ll res = 1;",
@@ -1160,7 +891,7 @@
 
     "kruscal": {
         "prefix": "kruscal",
-        "scope": "cpp",
+        
         "body": [
             "struct UnionFind {",
             "    // par[i] := parent of i",
@@ -1244,7 +975,7 @@
 
     "topological_sort": {
         "prefix": "topological_sort",
-        "scope": "cpp",
+        
         "body": [
             "vector<int> topological_sort(vector<vector<int> > &G, vector<int> &indegree) {",
             "    // 入力の段階で indegree をいじっておくことを忘れない！",
@@ -1270,7 +1001,7 @@
 
     "simple_primefact": {
         "prefix": "simple_primefact",
-        "scope": "cpp",
+        
         "body": [
             "template <typename T>",
             "struct SimplePrimeFact {",
@@ -1317,7 +1048,7 @@
 
     "rapid_primefact": {
         "prefix": "rapid_primefact",
-        "scope": "cpp",
+        
         "body": [
             "/*  PrimeFact",
             "    init(N): 初期化。O(N log log N)",
@@ -1367,7 +1098,7 @@
 
     "combination": {
         "prefix": "combination",
-        "scope": "cpp",
+        
         "body": [
             "const int MAX_N = 1000100;",
             "long long fact[MAX_N], fact_inv[MAX_N], inv[MAX_N];",
@@ -1398,7 +1129,7 @@
 
     "fenwick_tree": {
         "prefix": "fenwick_tree",
-        "scope": "cpp",
+        
         "body": [
             "template <typename T>",
             "struct FenwickTree {",
@@ -1451,7 +1182,7 @@
 
     "segment_tree": {
         "prefix": "segment_tree",
-        "scope": "cpp",
+        
         "body": [
             "template <typename X>",
             "struct SegTree {",
@@ -1521,7 +1252,7 @@
 
     "unionfind_2d": {
         "prefix": "unionfind_2d",
-        "scope": "cpp",
+        
         "body": [
             "struct UnionFind2D {",
             "    vector<vector<pair<int, int>>> par;",
@@ -1569,7 +1300,7 @@
 
     "doubling": {
         "prefix": "doubling",
-        "scope": "cpp",
+        
         "body": [
             "struct Doubling {",
             "    int N;",
@@ -1633,7 +1364,7 @@
 
     "range_fenwick_tree": {
         "prefix": "range_fenwick_tree",
-        "scope": "cpp",
+        
         "body": [
             "// 0-indexed で使えます",
             "template <typename T>",
@@ -1692,7 +1423,7 @@
 
     "dfs_bfs_tree": {
         "prefix": "dfs_bfs_tree",
-        "scope": "cpp",
+        
         "body": [
             "struct DfsBfsTree {",
             "    vector<vector<int>> edges;",
@@ -1751,7 +1482,7 @@
 
     "bipartite_graph": {
         "prefix": "bipartite_graph",
-        "scope": "cpp",
+        
         "body": [
             "struct UnionFind {",
             "    vector<int> par, rank, siz;",
@@ -1824,7 +1555,7 @@
 
     "make_sentinel": {
         "prefix": "make_sentinel",
-        "scope": "cpp",
+        
         "body": [
             "/* ",
             "    2次元 vector : A の周囲 4 辺に番兵を設定します",
@@ -1856,7 +1587,7 @@
 
     "z_algorithm": {
         "prefix": "z_algorithm",
-        "scope": "cpp",
+        
         "body": [
             "/*",
             "    Z 配列 (Z[i] := S と S[i:] の最長共通接頭辞) を作成",
@@ -1915,7 +1646,7 @@
 
     "rolling_hash": {
         "prefix": "rolling_hash",
-        "scope": "cpp",
+        
         "body": [
             "struct RollingHash {",
             "    // Ref : https://github.com/Capobmb/CPcpp_library/blob/main/RollingHash.cpp",
@@ -2024,7 +1755,7 @@
 
     "trie_basic": {
         "prefix": "trie_basic",
-        "scope": "cpp",
+        
         "body": [
             "/// @brief Trie 木, insert (単語の挿入), search (単語の検索)",
             "/// @tparam alphabet_size 文字列の種類数 (26など)",
@@ -2102,7 +1833,7 @@
 
     "trie": {
         "prefix": "trie_ext",
-        "scope": "cpp",
+        
         "body": [
             "/* Trie 木： 文字の種類 (char_size) 、int型で0に対応する文字 (base)",
             "    insert(word): 単語 word を Trie 木に挿入する",
@@ -2196,7 +1927,7 @@
 
     "accumulate_2d": {
         "prefix": "accumulate_2d",
-        "scope": "cpp",
+        
         "body": [
             "template <typename T>",
             "struct Accumulate2D {",
@@ -2229,7 +1960,7 @@
 
     "lazy_segment_tree": {
         "prefix": "lazy_segment_tree",
-        "scope": "cpp",
+        
         "body": [
             "// Ref : https://atcoder.github.io/ac-library/document_ja/lazysegtree.html",
             "namespace internal {",
@@ -2478,7 +2209,7 @@
 
     "rotate_point": {
         "prefix": "rotate_point",
-        "scope": "cpp",
+        
         "body": [
             "const double PI = 3.141592653589793238462643383279;",
             "pair<double, double> rotate_point(double cx, double cy, double base_x, double base_y, double theta) {",
@@ -2492,7 +2223,7 @@
 
     "count_continuous_elements": {
         "prefix": "count_continuous_elements",
-        "scope": "cpp",
+        
         "body": [
             "template<typename T>",
             "int count_continuous_elements(vector<T> &v, bool cyclic=false) {",
@@ -2534,7 +2265,7 @@
 
     "geom_point": {
         "prefix": "geom_point",
-        "scope": "cpp",
+        
         "body": [
             "struct Point {",
             "    long long x, y;",
@@ -2659,5 +2390,124 @@
         ],
         "description": ""
     },
+
+    "tolower": {
+        "prefix": "tolower_transform",
+        "body": [
+            "transform ($1.begin(), $1.end(), $1.begin(), ::tolower);",
+        ],
+        "description": ""
+    },
+
+    "toupper": {
+        "prefix": "toupper_transform",
+        "body": [
+            "transform ($1.begin(), $1.end(), $1.begin(), ::toupper);",
+        ],
+        "description": ""
+    },
+
+    "usings": {
+        "prefix": "usings",
+        "body": [
+            "using vi = vector<int>;",
+            "using vvi = vector<vi>;",
+            "using vvvi = vector<vvi>;",
+            "using vl = vector<ll>;",
+            "using vvl = vector<vl>;",
+            "using vvvl = vector<vvl>;",
+            "using pii = pair<int, int>;",
+            "using pll = pair<ll, ll>;",
+        ],
+        "description": ""
+    },
+
+    "longest_increasing_subsequence": {
+        "prefix": "longest_increasing_subsequence",
+        "body": [
+            "// https://ei1333.github.io/luzhiled/snippets/dp/longest-increasing-subsequence.html",
+            "template<typename T>",
+            "int longest_increasing_subseqence(const std::vector<T> &v, bool strict) {",
+            "    std::vector<T> lis;",
+            "    for (auto &e : v) {",
+            "        typename std::vector<T>::iterator itr;",
+            "        if (strict) {",
+            "            itr = std::lower_bound(lis.begin(), lis.end(), e);",
+            "        } else {",
+            "            itr = std::upper_bound(lis.begin(), lis.end(), e);",
+            "        }",
+            "        if (itr == lis.end()) {",
+            "            lis.push_back(e);",
+            "        } else {",
+            "            *itr = e;",
+            "        }",
+            "    }",
+            "    return lis.size();",
+            "}",
+        ],
+        "description": ""
+    },
+
+    "partitions": {
+        "prefix": "partitions",
+        "body": [
+            "template <typename T>",
+            "struct Partitions {",
+            "   private:",
+            "    /// @brief 自然数 n を c 分割した結果を vector に格納し、それらをまとめて",
+            "    /// vector にして返す。",
+            "    /// @tparam T",
+            "    /// @param n",
+            "    /// @param c",
+            "    /// @param strict 各分割が 0 より大きくならないといけないか",
+            "    /// @param zero_end_ok 最後の要素に 0 が入っても良いか",
+            "    /// @return",
+            "    void partition_num_impl(T n, T c, std::vector<T> &current_partition,",
+            "                            std::vector<std::vector<T>> &result_partitions,",
+            "                            bool &strict, bool &zero_end_ok) {",
+            "        if (n == 0 && (int)current_partition.size() == c) {",
+            "            if (!zero_end_ok and current_partition.back() == 0) return;",
+            "            result_partitions.push_back(current_partition);",
+            "            return;",
+            "        }",
+            "        if (n < 0 || (int)current_partition.size() > c) return;",
+            "",
+            "        int start = (int)strict;",
+            "        if (zero_end_ok && (int)current_partition.size() == c - 1) {",
+            "            start = 0;",
+            "        }",
+            "",
+            "        for (int i = start; i <= n; i++) {",
+            "            int remain = n - i;",
+            "            current_partition.push_back(i);",
+            "            partition_num_impl(remain, c, current_partition, result_partitions,",
+            "                               strict, zero_end_ok);",
+            "            current_partition.pop_back();",
+            "        }",
+            "    }",
+            "",
+            "   public:",
+            "    /// @brief 自然数 n を c 分割した結果を vector に格納し、それらをまとめて",
+            "    /// vector にして返す。",
+            "    /// @tparam T",
+            "    /// @param n",
+            "    /// @param c",
+            "    /// @param strict 各分割が 0 より大きくならないといけないか",
+            "    /// @param zero_end_ok 最後の要素に 0 が入っても良いか",
+            "    /// @return",
+            "    std::vector<std::vector<T>> partition_num(T n, T c, bool strict = true,",
+            "                                              bool zero_end_ok = false) {",
+            "        std::vector<std::vector<T>> result_partitions;",
+            "        std::vector<T> current_partition;",
+            "",
+            "        partition_num_impl(n, c, current_partition, result_partitions, strict,",
+            "                           zero_end_ok);",
+            "        return result_partitions;",
+            "    }",
+            "};",
+        ],
+        "description": ""
+    },
+
 
 }
