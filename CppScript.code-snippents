@@ -16,6 +16,88 @@
 	// 	"description": "Log output to console"
 	// }
 
+    "vi": {
+        "prefix": "veci",
+        "body": [
+            "vector<int> ",
+        ],
+        "description": ""
+    },
+
+    "vl": {
+        "prefix": "vecl",
+        "body": [
+            "vector<ll> ",
+        ],
+        "description": ""
+    },
+
+    "vvi": {
+        "prefix": "vveci",
+        "body": [
+            "vector<vector<int>> ",
+        ],
+        "description": ""
+    },
+
+    "vvl": {
+        "prefix": "vvecl",
+        "body": [
+            "vector<vector<ll>> ",
+        ],
+        "description": ""
+    },
+
+    "vb": {
+        "prefix": "vecb",
+        "body": [
+            "vector<bool> ",
+        ],
+        "description": ""
+    },
+
+    "vvb": {
+        "prefix": "vvecb",
+        "body": [
+            "vector<vector<bool>> ",
+        ],
+        "description": ""
+    },
+
+    "vs": {
+        "prefix": "vecs",
+        "body": [
+            "vector<string> ",
+        ],
+        "description": ""
+    },
+
+    "vvc": {
+        "prefix": "vvecc",
+        "body": [
+            "vector<vector<char>> ",
+        ],
+        "description": ""
+    },
+
+    "vm": {
+        "prefix": "vecm",
+        "body": [
+            "vector<mint> ",
+        ],
+        "description": ""
+    },
+
+    "vvm": {
+        "prefix": "vvecm",
+        "body": [
+            "vector<vector<mint>> ",
+        ],
+        "description": ""
+    },
+
+
+
     "cpmain": {
         "prefix": "cpmain",
         "body": [
@@ -30,8 +112,6 @@
             "#define fore(e, a) for (auto &&e : a)",
             "#define all(x) (x).begin(), (x).end()",
             "",
-            "template <typename T>",
-            "using V = vector<T>;",
             "using ll = long long;",
             "using ull = unsigned long long;",
             "",
@@ -40,7 +120,6 @@
             "    for (T &e : v) is >> e;",
             "    return is;",
             "}",
-            "",
             "template <typename T>",
             "ostream &operator<<(ostream &os, const vector<T> &v) {",
             "    int sz = (int)v.size();",
@@ -50,19 +129,13 @@
             "",
             "template <typename T, typename U>",
             "inline bool chmin(T &a, U b) {",
-            "    if (a > b) {",
-            "        a = b;",
-            "        return true;",
-            "    }",
-            "    return 0;",
+            "    if (a > b) { a = b; return true; }",
+            "    return false;",
             "}",
             "template <typename T, typename U>",
             "inline bool chmax(T &a, U b) {",
-            "    if (a < b) {",
-            "        a = b;",
-            "        return true;",
-            "    }",
-            "    return 0;",
+            "    if (a < b) { a = b; return true; }",
+            "    return false;",
             "}",
             "",
             "#ifdef LOCAL",
@@ -114,8 +187,6 @@
             "#define fore(e, a) for (auto &&e : a)",
             "#define all(x) (x).begin(), (x).end()",
             "",
-            "template <typename T>",
-            "using V = vector<T>;",
             "using ll = long long;",
             "using ull = unsigned long long;",
             "",
@@ -124,7 +195,6 @@
             "    for (T &e : v) is >> e;",
             "    return is;",
             "}",
-            "",
             "template <typename T>",
             "ostream &operator<<(ostream &os, const vector<T> &v) {",
             "    int sz = (int)v.size();",
@@ -134,19 +204,13 @@
             "",
             "template <typename T, typename U>",
             "inline bool chmin(T &a, U b) {",
-            "    if (a > b) {",
-            "        a = b;",
-            "        return true;",
-            "    }",
-            "    return 0;",
+            "    if (a > b) { a = b; return true; }",
+            "    return false;",
             "}",
             "template <typename T, typename U>",
             "inline bool chmax(T &a, U b) {",
-            "    if (a < b) {",
-            "        a = b;",
-            "        return true;",
-            "    }",
-            "    return 0;",
+            "    if (a < b) { a = b; return true; }",
+            "    return false;",
             "}",
             "",
             "#ifdef LOCAL",
@@ -167,7 +231,7 @@
             "",
             "",
             "void solve() {",
-            "    ",
+            "    $1",
             "}",
             "",
             "int main() {",
@@ -712,8 +776,8 @@
 
 
 
-    "dijkstra": {
-        "prefix": "dijkstra",
+    "old_dijkstra": {
+        "prefix": "old_dijkstra",
         "body": [
             "// vector<int> edgenum(MAX_N, -1);",
             "struct Edge {",
@@ -2509,5 +2573,44 @@
         "description": ""
     },
 
-
+    "dijkstra": {
+        "prefix": "dijkstra",
+        "body": [
+            "// vector<int> edgenum(MAX_N, -1);",
+            "struct Edge {",
+            "    int to;",
+            "    ll cost;",
+            "    // int id;",
+            "};",
+            "",
+            "void dijkstra(const vector<vector<Edge>> &G, int s, vector<ll> &dis) {",
+            "    assert(dis.size() == G.size());",
+            "    ",
+            "    // (距離, 頂点番号) の priority queue",
+            "    using pli = pair<long long, int>;",
+            "    priority_queue<pli, vector<pli>, greater<pli>> pq;",
+            "",
+            "    // 訪れたかどうかを管理する vector",
+            "    vector<bool> seen((int)G.size());",
+            "",
+            "    dis[s] = 0;",
+            "    pq.emplace(dis[s], s);",
+            " ",
+            "    while (!pq.empty()) {",
+            "        auto [cur_d, cur_v] = pq.top(); pq.pop();",
+            " ",
+            "        if (seen[cur_v]) continue;",
+            "        seen[cur_v] = true;",
+            " ",
+            "        for (auto &[nxt_v, nxt_d] : G[cur_v]) {",
+            "            if (chmin(dis[nxt_v], dis[cur_v] + nxt_d)) { // 最短距離候補",
+            "                pq.push({dis[nxt_v], nxt_v});",
+            "                // edgenum[e.to] = e.id;",
+            "            }",
+            "        }",
+            "    }",
+            "}",
+        ],
+        "description": ""
+    },
 }
